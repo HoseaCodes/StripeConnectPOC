@@ -11,6 +11,7 @@ import ErrorPage from './pages/ErrorPage'; // Custom error page component
 import { AuthProvider } from './context/AuthContext';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import LandingPage from './pages/LandingPage';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -21,6 +22,7 @@ const App = () => {
         <Router>
           <Navbar />
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />

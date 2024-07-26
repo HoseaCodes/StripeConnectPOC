@@ -60,7 +60,7 @@ const Dashboard = () => {
       if (error) {
         setStatus(error.message);
       } else {
-          console.log({paymentIntent})
+        console.log({paymentIntent});
         setStatus(`Payment ${paymentIntent.status}`);
         await api.post('/payments/transfer-funds', {
           senderId: user._id,
@@ -74,12 +74,12 @@ const Dashboard = () => {
       setStatus(error.message);
     }
   };
-    
+
   const handleOnboarding = async () => {
     try {
       const response = await api.post('/users/stripe-account', { userId: user._id });
       const { url } = response.data;
-  
+
       // Redirect the user to the Stripe onboarding URL
       window.location.href = url;
     } catch (error) {
@@ -89,17 +89,25 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome, {user.name}</h1>
-      <button onClick={handleOnboarding}>Onboard with Stripe</button>
-      <form onSubmit={handlePayment}>
-        <CardElement />
+    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+      <h1 className="text-2xl font-bold mb-4">Welcome, {user.name}</h1>
+      <button
+        className="w-full py-2 mb-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        onClick={handleOnboarding}
+      >
+        Onboard with Stripe
+      </button>
+      <form onSubmit={handlePayment} className="space-y-4">
+        <div className="bg-gray-100 p-2 rounded-md">
+          <CardElement />
+        </div>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder="Amount"
           required
+          className="w-full p-2 border border-gray-300 rounded-md"
         />
         <input
           type="email"
@@ -107,10 +115,17 @@ const Dashboard = () => {
           onChange={(e) => setRecipientEmail(e.target.value)}
           placeholder="Recipient Email"
           required
+          className="w-full p-2 border border-gray-300 rounded-md"
         />
-        <button type="submit" disabled={!stripe}>Pay</button>
+        <button
+          type="submit"
+          disabled={!stripe}
+          className="w-full py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+        >
+          Pay
+        </button>
       </form>
-      {status && <p>{status}</p>}
+      {status && <p className="mt-4 text-red-500">{status}</p>}
     </div>
   );
 };
