@@ -1,13 +1,28 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+const bankAccountSchema = mongoose.Schema({
+  accountNumber: String,
+  routingNumber: String,
+  bankName: String,
+  accountId: String,
+  accountName: String,
+  accountMask: String,
+  accountType: String,
+  accountSubtype: String,
+  institutionName: String,
+  accessToken: String,
+  itemId: String,
+}, { _id: false });
+
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   balance: { type: Number, default: 0 },
   stripeAccountId: { type: String },
-
+  onboarded: { type: Boolean, default: false },
+  bankAccounts: [bankAccountSchema],
 });
 
 userSchema.pre('save', async function (next) {
