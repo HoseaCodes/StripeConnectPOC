@@ -106,9 +106,11 @@ const Dashboard = () => {
 
     const handleOnboarding = async () => {
         try {
-            const response = await api.post('/users/stripe-account', {
-                headers: { Authorization: `Bearer ${accesstoken}` },
-            }, { userId: user._id });
+            const response = await api.post('/users/stripe-account', { userId: user._id },
+            {
+                headers: { Authorization: accesstoken },
+            }
+            );
             const { url } = response.data;
 
             // Redirect the user to the Stripe onboarding URL
