@@ -8,8 +8,9 @@ const Register = () => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
+    if (!name || !email || !password) return
     e.preventDefault();
-    await register(name, email, password);
+    await register({name, email, password});
   };
 
   return (
