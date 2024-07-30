@@ -120,7 +120,8 @@ const Dashboard = () => {
     };
 
     if (!user) {
-        return window.location.href = "/login"
+        // return window.location.href = "/login"
+        return <h1>Loading..</h1>
     } else if (!user.onboarded) {
         return (
             <div className="max-w-md max-h-md my-auto mx-auto p-4 bg-white shadow-md rounded-md">
