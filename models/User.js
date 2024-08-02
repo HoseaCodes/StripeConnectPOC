@@ -22,6 +22,19 @@ const userSchema = new mongoose.Schema({
   balance: { type: Number, default: 0 },
   stripeAccountId: { type: String },
   onboarded: { type: Boolean, default: false },
+  phone: { type: String },
+  dob: {
+    day: { type: Number },
+    month: { type: Number },
+    year: { type: Number },
+  },
+  address: {
+    line1: { type: String },
+    city: { type: String },
+    state: { type: String },
+    postal_code: { type: String },
+    country: { type: String },
+  },
   bankAccounts: [bankAccountSchema],
 });
 

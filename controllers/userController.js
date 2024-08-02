@@ -35,7 +35,7 @@ const registerUser = async (req, res) => {
 
     res.json({ accesstoken });
   } catch (error) {
-    res.status(400).json({ message: `Invalid user data: ${error.message}` });
+    res.status(500).json({ message: `Invalid user data: ${error.message}` });
   }
 };
 
@@ -130,7 +130,7 @@ const createStripeAccount = async (req, res) => {
 
   try {
     const account = await stripe.accounts.create({
-      type: 'express',
+      type: 'custom',
       email: user.email,
       capabilities: {
         card_payments: {
