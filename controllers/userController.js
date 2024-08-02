@@ -140,6 +140,27 @@ const createStripeAccount = async (req, res) => {
           requested: true,
         },
       },
+      individual: {
+        first_name: user.name.split(' ')[0],
+        last_name: user.name.split(' ')[1],
+        dob: user.dob,
+        address: user.address,
+        email: user.email,
+        phone: user.phone,
+      },
+      business_profile: {
+        mcc: '5734',
+        url: 'https://example.com',
+      },
+      external_account: {
+        object: 'bank_account',
+        country: 'US',
+        currency: 'usd',
+        routing_number: user.bankAccounts[0]?.routingNumber,
+        account_number: user.bankAccounts[0]?.accountNumber,
+        account_holder_name: user.name,
+        account_holder_type: 'individual',
+      },
     });
 
     user.stripeAccountId = account.id;
