@@ -13,7 +13,7 @@ const createRefreshToken = (user) => {
 };
 
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    const user = await User.create({ name, email, password });
+    const user = await User.create({ firstName, lastName, email, password });
     //Create jsonwebtoken for authentication
     const accesstoken = createAccessToken({ id: user._id });
     const refreshtoken = createRefreshToken({ id: user._id });

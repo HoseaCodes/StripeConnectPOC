@@ -3,14 +3,15 @@ import { AuthContext } from '../context/AuthContext';
 
 const Register = () => {
   const { register } = useContext(AuthContext);
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
-    if (!name || !email || !password) return
     e.preventDefault();
-    await register({name, email, password});
+    if (!firstName || !lastName || !email || !password) return
+    await register({firstName, lastName, email, password});
   };
 
   return (
@@ -21,15 +22,29 @@ const Register = () => {
       >
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
         <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-            Name
+          <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 mb-2">
+            First Name
           </label>
           <input 
-            id="name"
+            id="first_name"
             type="text" 
-            placeholder="Name" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
+            placeholder="First Name" 
+            value={firstName} 
+            onChange={(e) => setFirstName(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 mb-2">
+            Last Name
+          </label>
+          <input 
+            id="last_name"
+            type="text" 
+            placeholder="Last Name" 
+            value={lastName} 
+            onChange={(e) => setLastName(e.target.value)} 
             required 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

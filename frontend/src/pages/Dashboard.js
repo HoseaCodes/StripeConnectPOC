@@ -141,7 +141,7 @@ const Dashboard = () => {
 
     return (
         <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
-            <h1 className="text-2xl font-bold mb-4">Welcome, {user.name}</h1>
+            <h1 className="text-2xl font-bold mb-4">Welcome, {user.firstName}</h1>
             {
                 !user.onboarded && (
                     <button
