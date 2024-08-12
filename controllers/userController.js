@@ -141,8 +141,10 @@ const createStripeAccount = async (req, res) => {
         },
       },
       individual: {
-        first_name: user.name.split(' ')[0],
-        last_name: user.name.split(' ')[1],
+        first_name: user.firstName,
+        last_name: user.lastName,
+        // first_name: user.name.split(' ')[0],
+        // last_name: user.name.split(' ')[1],
         dob: user.dob,
         address: user.address,
         email: user.email,
