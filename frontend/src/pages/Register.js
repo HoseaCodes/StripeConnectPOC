@@ -7,11 +7,18 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !email || !password) return
-    await register({firstName, lastName, email, password});
+    if (!firstName || !lastName || !dateOfBirth || !address|| !city || !postalCode || !state || !country || !phone || !email || !password) return
+    await register({firstName, lastName, dateOfBirth, address, city, postalCode, state, country, phone, email, password});
   };
 
   return (
@@ -45,6 +52,110 @@ const Register = () => {
             placeholder="Last Name" 
             value={lastName} 
             onChange={(e) => setLastName(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="date_of_birth" className="block text-sm font-medium text-gray-700 mb-2">
+            Date of Birth
+          </label>
+          <input 
+            id="date_of_birth"
+            type="date" 
+            placeholder="mm/dd/yyyy" 
+            value={dateOfBirth} 
+            onChange={(e) => setDateOfBirth(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+            Address
+          </label>
+          <input 
+            id="address"
+            type="text" 
+            placeholder="address" 
+            value={address} 
+            onChange={(e) => setAddress(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+            City
+          </label>
+          <input 
+            id="city"
+            type="text" 
+            placeholder="City" 
+            value={city} 
+            onChange={(e) => setCity(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-2">
+            State/Province
+          </label>
+          <input 
+            id="state"
+            type="text" 
+            placeholder="State/Province" 
+            value={state} 
+            onChange={(e) => setState(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700 mb-2">
+            Postal Code
+          </label>
+          <input 
+            id="postal-code"
+            type="text" 
+            placeholder="Postal Code" 
+            value={postalCode} 
+            onChange={(e) => setPostalCode(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+            Country
+          </label>
+          <select 
+            id="country" 
+            value={country} 
+            onChange={(e) => setCountry(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="" disabled>Select Country</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+          </select>
+        </div>
+        <div className="mb-4">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            Phone
+          </label>
+          <input 
+            id="phone"
+            type="text" 
+            placeholder="Phone Number" 
+            value={phone} 
+            onChange={(e) => setPhone(e.target.value)} 
             required 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

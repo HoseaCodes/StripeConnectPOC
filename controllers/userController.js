@@ -13,7 +13,7 @@ const createRefreshToken = (user) => {
 };
 
 const registerUser = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, address, city, state, postalCode, country, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    const user = await User.create({ firstName, lastName, email, password });
+    const user = await User.create({ firstName, lastName, address, city, state, postalCode, country, email, password });
     //Create jsonwebtoken for authentication
     const accesstoken = createAccessToken({ id: user._id });
     const refreshtoken = createRefreshToken({ id: user._id });
@@ -35,6 +35,7 @@ const registerUser = async (req, res) => {
 
     res.json({ accesstoken });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: `Invalid user data: ${error.message}` });
   }
 };
@@ -139,7 +140,15 @@ const createStripeAccount = async (req, res) => {
         transfers: {
           requested: true,
         },
+
       },
+
+      tos_acceptance: {
+        service_agreement: 'full',
+      },
+
+      business_type: "individual",
+
       individual: {
         first_name: user.firstName,
         last_name: user.lastName,
@@ -150,15 +159,18 @@ const createStripeAccount = async (req, res) => {
       },
       business_profile: {
         mcc: '5734',
-        url: 'https://linkedin.com',
+        url: 'https://github.com/HoseaCodes',
       },
       external_account: {
         object: 'bank_account',
         country: 'US',
         currency: 'usd',
-        routing_number: user.bankAccounts[0]?.routingNumber,
-        account_number: user.bankAccounts[0]?.accountNumber,
-        account_holder_name: user.name,
+        // routing_number: user.bankAccounts[0]?.routingNumber,
+        // account_number: user.bankAccounts[0]?.accountNumber,
+        routing_number: '110000000',
+        account_number: '000123456789',
+        account_holder_name: user.firstName,
+        account_holder_name: user.lastName,
         account_holder_type: 'individual',
       },
     });
