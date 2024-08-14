@@ -143,8 +143,6 @@ const createStripeAccount = async (req, res) => {
       individual: {
         first_name: user.firstName,
         last_name: user.lastName,
-        // first_name: user.name.split(' ')[0],
-        // last_name: user.name.split(' ')[1],
         dob: user.dob,
         address: user.address,
         email: user.email,
@@ -152,7 +150,7 @@ const createStripeAccount = async (req, res) => {
       },
       business_profile: {
         mcc: '5734',
-        url: 'https://example.com',
+        url: 'https://linkedin.com',
       },
       external_account: {
         object: 'bank_account',
@@ -179,6 +177,7 @@ const createStripeAccount = async (req, res) => {
 
     res.status(200).json({ url: accountLink.url });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: error.message });
   }
 };

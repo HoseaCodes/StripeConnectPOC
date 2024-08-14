@@ -105,6 +105,7 @@ const Dashboard = () => {
     };
 
     const handleOnboarding = async () => {
+
         try {
             const response = await api.post('/users/stripe-account', { userId: user._id },
             {
@@ -113,8 +114,10 @@ const Dashboard = () => {
             );
             const { url } = response.data;
 
+            console.log('Stripe Onboarding URL:', url);
             // Redirect the user to the Stripe onboarding URL
             window.location.href = url;
+
         } catch (error) {
             console.error('Error starting onboarding:', error);
             setStatus(error.message);
@@ -127,7 +130,7 @@ const Dashboard = () => {
     } else if (!user.onboarded) {
         return (
             <div className="max-w-md max-h-md my-auto mx-auto p-4 bg-white shadow-md rounded-md">
-                <h1 className="text-2xl font-bold mb-4">Welcome, {user.name}</h1>
+                <h1 className="text-2xl font-bold mb-4">Welcome, {user.firstName}</h1>
                 <button
                     className="w-full py-2 mb-4 bg-blue-500 text-white rounded-md hover:bg-blue-600"
                     onClick={handleOnboarding}
