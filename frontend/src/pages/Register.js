@@ -7,18 +7,19 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [address, setAddress] = useState('');
+  const [line1, setLine1] = useState('');
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [state, setState] = useState('');
   const [country, setCountry] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [dob, setDob] = useState('');
   const [phone, setPhone] = useState('');
+  const [ssn, setSsn] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!firstName || !lastName || !dateOfBirth || !address|| !city || !postalCode || !state || !country || !phone || !email || !password) return
-    await register({firstName, lastName, dateOfBirth, address, city, postalCode, state, country, phone, email, password});
+    if (!firstName || !lastName || !dob || !line1|| !city || !postalCode || !state || !country || !phone || !email || !password || !ssn) return
+    await register({firstName, lastName, dob, line1, city, postalCode, state, country, phone, email, password, ssn});
   };
 
   return (
@@ -64,22 +65,22 @@ const Register = () => {
             id="date_of_birth"
             type="date" 
             placeholder="mm/dd/yyyy" 
-            value={dateOfBirth} 
-            onChange={(e) => setDateOfBirth(e.target.value)} 
+            value={dob} 
+            onChange={(e) => setDob(e.target.value)} 
             required 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="line1" className="block text-sm font-medium text-gray-700 mb-2">
             Address
           </label>
           <input 
-            id="address"
+            id="line1"
             type="text" 
-            placeholder="address" 
-            value={address} 
-            onChange={(e) => setAddress(e.target.value)} 
+            placeholder="Street" 
+            value={line1} 
+            onChange={(e) => setLine1(e.target.value)} 
             required 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -156,6 +157,20 @@ const Register = () => {
             placeholder="Phone Number" 
             value={phone} 
             onChange={(e) => setPhone(e.target.value)} 
+            required 
+            className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="ssn" className="block text-sm font-medium text-gray-700 mb-2">
+            SSN
+          </label>
+          <input 
+            id="ssn"
+            type="text" 
+            placeholder="xxx-xx-xxxx" 
+            value={ssn} 
+            onChange={(e) => setSsn(e.target.value)} 
             required 
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />

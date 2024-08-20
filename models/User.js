@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   balance: { type: Number, default: 0 },
   stripeAccountId: { type: String },
   onboarded: { type: Boolean, default: false },
+  ssn: {type: String, required: true},
   phone: { type: String },
   dob: {
     day: { type: Number },

@@ -13,7 +13,7 @@ const createRefreshToken = (user) => {
 };
 
 const registerUser = async (req, res) => {
-  const { firstName, lastName, address, city, state, postalCode, country, email, password } = req.body;
+  const { firstName, lastName, line1, city, state, postalCode, country, email, password, phone, dob, ssn } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
   }
 
   try {
-    const user = await User.create({ firstName, lastName, address, city, state, postalCode, country, email, password });
+    const user = await User.create({ firstName, lastName, email, password, phone, ssn, address: {line1, city, state, postal_code: postalCode, country}, dob: { day: new Date(dob).getDate(), month: new Date(dob).getMonth() + 1, year: new Date(dob).getFullYear()}, });
     //Create jsonwebtoken for authentication
     const accesstoken = createAccessToken({ id: user._id });
     const refreshtoken = createRefreshToken({ id: user._id });
@@ -144,7 +144,8 @@ const createStripeAccount = async (req, res) => {
       },
 
       tos_acceptance: {
-        service_agreement: 'full',
+        date: Math.floor(Date.now() / 1000),
+        ip: req.ip,
       },
 
       business_type: "individual",
@@ -152,10 +153,21 @@ const createStripeAccount = async (req, res) => {
       individual: {
         first_name: user.firstName,
         last_name: user.lastName,
-        dob: user.dob,
-        address: user.address,
+        dob: {
+          day: user.dob.day,
+          month: user.dob.month,
+          year: user.dob.year,
+        },
+        address: {
+          line1: user.address.line1,
+          city: user.address.city,
+          state: user.address.state,
+          postal_code: user.address.postal_code,
+          country: user.address.country,
+        },
         email: user.email,
         phone: user.phone,
+        id_number: user.ssn, //222222222 for testing 
       },
       business_profile: {
         mcc: '5734',
@@ -169,27 +181,33 @@ const createStripeAccount = async (req, res) => {
         // account_number: user.bankAccounts[0]?.accountNumber,
         routing_number: '110000000',
         account_number: '000123456789',
-        account_holder_name: user.firstName,
-        account_holder_name: user.lastName,
+        account_holder_name: `${user.firstName} ${user.lastName}`,
         account_holder_type: 'individual',
       },
     });
-
+     // Check if any verification is still required
+     console.log(account.requirements.currently_due)
+     if (account.requirements.currently_due.length > 0) {
+      return res.status(400).json({ message: 'Additional verification is required', requirements: account.requirements.currently_due });
+    }
     user.stripeAccountId = account.id;
+    //
+    user.onboarded = true;
     await user.save();
 
     // res.status(200).json({ accountId: account.id });
     // Return the account link for onboarding
-    const accountLink = await stripe.accountLinks.create({
-      account: account.id,
-      refresh_url: `${process.env.BASE_URL}/refresh?account_id=${account.id}`,
-      return_url: `${process.env.BASE_URL}/return`,
-      type: 'account_onboarding',
-    });
 
-    res.status(200).json({ url: accountLink.url });
+    res.status(200).json({ message: 'Account verified and onboarded successfully'});
+    // const accountLink = await stripe.accountLinks.create({
+    //   account: account.id,
+    //   refresh_url: `${process.env.BASE_URL}/refresh?account_id=${account.id}`,
+    //   return_url: `${process.env.BASE_URL}/return`,
+    //   type: 'account_onboarding',
+    // });
+
+    // res.status(200).json({ url: accountLink.url });
   } catch (error) {
-    console.log(error)
     res.status(400).json({ message: error.message });
   }
 };
